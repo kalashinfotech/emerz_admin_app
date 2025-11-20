@@ -41,7 +41,7 @@ type IdeaMenuProps = {
   setOpenActivityModal: (o: boolean) => void
 }
 
-function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
+function IdeaMenu({ setAction, setOpenActivityModal }: IdeaMenuProps) {
   const [label, setLabel] = React.useState('personal')
 
   return (

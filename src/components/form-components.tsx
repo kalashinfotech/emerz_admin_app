@@ -159,7 +159,7 @@ export function TextField({
       </Label>
       <Input
         id={label}
-        value={field.state.value ? field.state.value : ''}
+        value={field.state.value ? field.state.value.toString() : ''}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
         {...props}
@@ -239,11 +239,7 @@ export function TextArea({
       <Label htmlFor={id} className="mb-2 ml-1 flex justify-between leading-5">
         <div>
           {label} {subLabel && <span className="text-muted-foreground text-xs">{subLabel}</span>}
-          {mandatory && (
-            <span>
-              <sup>*</sup>
-            </span>
-          )}
+          {mandatory && <sup className="text-destructive">*</sup>}
         </div>
         {typeof charCount !== 'undefined' && charCount >= 0 ? (
           <div className="text-muted-foreground text-xs">
@@ -296,11 +292,7 @@ export function Select({
       <Label htmlFor={id} className="mb-2 ml-1 flex justify-between leading-5">
         <div>
           {label}
-          {mandatory && (
-            <span>
-              <sup>*</sup>
-            </span>
-          )}
+          {mandatory && <sup className="text-destructive">*</sup>}
         </div>
       </Label>
       <ShadcnSelect.Select name={field.name} value={val} onValueChange={(value) => field.handleChange(value)} {...props}>
@@ -454,7 +446,12 @@ export function Tags({ label, placeholder, note }: { label?: string; placeholder
           </Label>
         )}
         {note && <p className="text-muted-foreground mb-2 text-xs">{note}</p>}
-        <TagsInput id={label} setInputTags={field.handleChange} inputTags={field.state.value} placeholder={placeholder} />
+        <TagsInput
+          id={label}
+          setInputTags={field.handleChange}
+          inputTags={field.state.value.filter(Boolean)}
+          placeholder={placeholder}
+        />
       </div>
       {field.state.meta.isTouched && <ErrorMessages errors={fieldErrors.length > 0 ? fieldErrors : updatedErrors} />}
     </div>
@@ -492,7 +489,7 @@ export function DateField({
               )}
             </>
           )}
-          {mandatory && <sup>*</sup>}
+          {mandatory && <sup className="text-destructive">*</sup>}
         </div>
       </Label>
       <DatePicker

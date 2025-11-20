@@ -102,7 +102,10 @@ export function AuthenticationProvider(props: { children: ReactNode }) {
       if (isAxiosError(error)) {
         if (error.response) {
           const err = error as AxiosError<TError>
-          return { status: -1, error: err.response?.data.error.message }
+          return {
+            status: -1,
+            error: err.response?.data.error?.message || 'Something went wrong. Please contact administrator.',
+          }
         } else if (error.request) {
           return {
             status: -1,

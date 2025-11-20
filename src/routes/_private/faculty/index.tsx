@@ -3,9 +3,9 @@ import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef, RowSelectionState } from '@tanstack/react-table'
-import { ClipboardCopy, Plus, Trash2 } from 'lucide-react'
+import { ClipboardCopy, Plus, ShieldUser, Trash2 } from 'lucide-react'
 
-import type { UserAccountModel } from '@/types'
+import type { FacultyModel } from '@/types'
 import type { FilterOption } from '@/types/common/filter'
 import type { QueryParams } from '@/types/common/search-params'
 
@@ -18,9 +18,9 @@ import ActionMenu from '@/components/elements/action-menu'
 import type { Action } from '@/components/elements/action-menu'
 import { Container } from '@/components/elements/container'
 import { ProfileAvatar } from '@/components/elements/profile-avatar'
-import { UserAccountAddModal } from '@/components/modals/user-accounts/add'
+import { FacultyAddModal } from '@/components/modals/faculty/add'
 
-import { fetchUserAccounts } from '@/api/user-account'
+import { fetchFaculty } from '@/api/faculty'
 
 import { useAuth } from '@/hooks/use-auth'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
@@ -30,7 +30,7 @@ import { useSearchParams } from '@/hooks/use-search-params'
 import { formatUtcStringToLocalDisplay } from '@/lib/date-utils'
 import { filterToState, sortByToState, stateToFilter, stateToSortBy } from '@/lib/search-params'
 
-export const Route = createFileRoute('/_private/user-account/')({
+export const Route = createFileRoute('/_private/faculty/')({
   component: RouteComponent,
   validateSearch: () => ({}) as QueryParams,
 })
@@ -56,12 +56,12 @@ function RouteComponent() {
   const columnSorters = sortByToState(searchParams.sortBy)
   const columnFilters = filterToState(searchParams)
   const { data, isPending, isError, error, isFetching, refetch } = useQuery(
-    fetchUserAccounts(pagination.pageIndex, columnFilters, columnSorters, pagination.pageSize),
+    fetchFaculty(pagination.pageIndex, columnFilters, columnSorters, pagination.pageSize),
   )
   const [hasAccess] = useHasAccess()
   const { copy } = useCopyToClipboard()
   const [addModal, showAddModal] = useState(false)
-  const actions: Action<UserAccountModel>[] = useMemo(
+  const actions: Action<FacultyModel>[] = useMemo(
     () => [
       {
         label: 'Copy ID',
@@ -83,7 +83,7 @@ function RouteComponent() {
     [sessionInfo?.id],
   )
 
-  const tableColumns: ColumnDef<UserAccountModel>[] = useMemo(
+  const tableColumns: ColumnDef<FacultyModel>[] = useMemo(
     () => [
       {
         id: 'select',
@@ -182,12 +182,12 @@ function RouteComponent() {
     ],
     [actions, hasAccess],
   )
-
   return (
     <>
       <Container
-        title="User Accounts"
-        module="participant"
+        title="Faculties"
+        module="faculty"
+        Icon={ShieldUser}
         requiredPermission="read"
         ActionComponent={
           <div>
@@ -226,7 +226,7 @@ function RouteComponent() {
           enableRowSelection={true}
         />
       </Container>
-      <UserAccountAddModal open={addModal} onOpenChange={showAddModal} userType={'REGULAR'} successFn={refetch} />
+      <FacultyAddModal open={addModal} onOpenChange={showAddModal} userType={'REGULAR'} successFn={refetch} />
     </>
   )
 }

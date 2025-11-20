@@ -1,7 +1,5 @@
 import { z } from 'zod/v4'
 
-import { bareUserAccountSchema } from '../user-account'
-
 export const auditMixinSchema = z.object({
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),

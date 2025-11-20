@@ -48,7 +48,7 @@ export const UserAccountAddModal = ({ open, onOpenChange, userType, successFn, e
         if (successFn) successFn()
       } catch (error) {
         const err = error as AxiosError<TError>
-        toast.error(err.response?.data.error.message)
+        toast.error(err.response?.data.error?.message || 'Something went wrong. Please contact administrator!')
         if (errorFn) errorFn()
       }
     },

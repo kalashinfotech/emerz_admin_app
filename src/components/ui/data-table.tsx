@@ -192,7 +192,11 @@ const DataTable = <TData, TValue>({
                   {error?.response?.data.statusCode === 40401 ? (
                     <Error message="No results found" />
                   ) : (
-                    <Error message={error?.response?.data.error.message} />
+                    <Error
+                      message={
+                        error?.response?.data.error?.message || 'Something went wrong. Please contact administrator'
+                      }
+                    />
                   )}
                 </TableCell>
               </TableRow>

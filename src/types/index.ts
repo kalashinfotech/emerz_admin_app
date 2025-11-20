@@ -2,7 +2,7 @@ export type TError = {
   statusCode: number
   timestamp: string
   path: string
-  error: {
+  error?: {
     message: string
     error: string
     statusCode: number
@@ -17,3 +17,4 @@ export * from './auth'
 export * from './client'
 export * from './idea'
 export * from './user-account'
+export * from './faculty'

@@ -33,7 +33,7 @@ function RouteComponent() {
   const [openActivityModal, setOpenActivityModal] = useState(false)
   return (
     <>
-      <Container title="Ideas" subtitle={data.title} requiredPermission="read" module="idea">
+      <Container title="Ideas" subtitle={data.title} requiredPermission="read" module={['idea', 'me_idea']}>
         <Tabs defaultValue="tab-1">
           <ScrollArea>
             <TabsList className="mb-3">

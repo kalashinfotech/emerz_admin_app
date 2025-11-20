@@ -115,7 +115,7 @@ type IdeaActivityTabProps = {
   ideaId: string
 }
 const IdeaAcitivityTab = ({ ideaId }: IdeaActivityTabProps) => {
-  const { data, isPending, isError, error, isFetching, refetch } = useQuery(fetchIdeaActivityByIdeaId(ideaId))
+  const { data } = useQuery(fetchIdeaActivityByIdeaId(ideaId))
   return (
     <Card>
       <CardHeader>

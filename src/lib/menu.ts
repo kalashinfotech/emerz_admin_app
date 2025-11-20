@@ -47,6 +47,11 @@ const MENU_ITEMS_MAP = [
     to: '/idea',
     icon: NotebookPen,
   },
+  {
+    module: 'me_idea',
+    to: '/idea',
+    icon: NotebookPen,
+  },
 ] as const
 
 export const NON_MENU_MODULES = [] as const

@@ -172,7 +172,7 @@ function RouteComponent() {
 
   return (
     <>
-      <Container title="Ideas" module="idea" requiredPermission="read">
+      <Container title="Ideas" module={['idea', 'me_idea']} requiredPermission="read">
         <DataTable
           columns={tableColumns}
           data={isFetching ? [] : data?.data || []}
