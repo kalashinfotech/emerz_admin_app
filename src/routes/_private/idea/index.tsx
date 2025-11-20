@@ -27,7 +27,7 @@ import { useHasAccess } from '@/hooks/use-has-access'
 import { useSearchParams } from '@/hooks/use-search-params'
 
 import { formatUtcStringToLocalDisplay } from '@/lib/date-utils'
-import { IdeaDecisionEnum, IdeaStageEnum } from '@/lib/enums'
+import { IdeaStageEnum, IdeaStatusEnum } from '@/lib/enums'
 import { filterToState, sortByToState, stateToFilter, stateToSortBy } from '@/lib/search-params'
 import { titleCase } from '@/lib/text-utils'
 import { enumToOptions } from '@/lib/utils'
@@ -39,7 +39,7 @@ export const Route = createFileRoute('/_private/idea/')({
 
 const filterOptions: FilterOption[] = [
   { id: 'search', label: 'Title, created by, email, etc.' },
-  { id: 'decision', label: 'Decision', options: enumToOptions(IdeaDecisionEnum) },
+  { id: 'status', label: 'Status', options: enumToOptions(IdeaStatusEnum) },
   { id: 'stage', label: 'Stage', options: enumToOptions(IdeaStageEnum) },
 ]
 
@@ -135,11 +135,11 @@ function RouteComponent() {
         },
       },
       {
-        accessorKey: 'decision',
-        header: 'Decision',
+        accessorKey: 'status',
+        header: 'Status',
         enableSorting: true,
         cell: ({ row }) => {
-          return <Badge variant="warning">{titleCase(row.original.decision)}</Badge>
+          return <Badge variant="warning">{titleCase(row.original.status, '_')}</Badge>
         },
       },
       {
@@ -172,7 +172,7 @@ function RouteComponent() {
 
   return (
     <>
-      <Container title="Ideas" subtitle="List" module="participant" requiredPermission="read">
+      <Container title="Ideas" module="idea" requiredPermission="read">
         <DataTable
           columns={tableColumns}
           data={isFetching ? [] : data?.data || []}

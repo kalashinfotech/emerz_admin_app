@@ -37,6 +37,11 @@ export function AuthenticationProvider(props: { children: ReactNode }) {
       await axiosPrivate
         .get<SessionInfo, AxiosResponse<SessionInfo, TError>>('/user-accounts/me', {
           withCredentials: true,
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+            Expires: '0',
+          },
         })
         .then((user) => {
           setSessionInfo(user.data)

@@ -26,3 +26,8 @@ export const bareRoleSchmea = roleSchema
   .extend({
     scopes: z.array(bareScopeSchema),
   })
+
+export const bareRoleOnlySchema = roleSchema.pick({
+  id: true,
+  name: true,
+})

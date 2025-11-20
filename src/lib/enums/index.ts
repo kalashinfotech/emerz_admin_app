@@ -15,22 +15,36 @@ export const UserTypeEnum = {
 export type UserTypeEnum = (typeof UserTypeEnum)[keyof typeof UserTypeEnum]
 
 export const IdeaStageEnum = {
-  DRAFT: 'DRAFT',
-  PRE_VALIDATION: 'PRE_VALIDATION',
-  READINESS: 'READINESS',
-  VALIDATION: 'VALIDATION',
-  FINALIZED: 'FINALIZED',
-  ARCHIVED: 'ARCHIVED',
-  DELETED: 'DELETED',
+  STAGE_0: 'STAGE_0',
+  STAGE_1: 'STAGE_1',
+  STAGE_2: 'STAGE_2',
+  STAGE_3: 'STAGE_3',
 } as const
 
 export type IdeaStageEnum = (typeof IdeaStageEnum)[keyof typeof IdeaStageEnum]
 
-export const IdeaDecisionEnum = {
+export const IdeaStatusEnum = {
+  IN_PROGRESS: 'IN_PROGRESS',
   PENDING: 'PENDING',
-  OK: 'OK',
-  REJECT: 'REJECT',
-  REDO: 'REDO',
+  IN_REVIEW: 'IN_REVIEW',
+  COACH_PENDING: 'COACH_PENDING',
+  COACH_REVIEW: 'COACH_REVIEW',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED',
 } as const
 
-export type IdeaDecisionEnum = (typeof IdeaDecisionEnum)[keyof typeof IdeaDecisionEnum]
+export type IdeaStatusEnum = (typeof IdeaStatusEnum)[keyof typeof IdeaStatusEnum]
+
+export const IdeaActionEnum = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  SUBMIT: 'SUBMIT',
+  ACCEPT: 'ACCEPT',
+  REJECT: 'REJECT',
+  REWORK: 'REWORK',
+  ACCEPT_ASSIGN: 'ACCEPT_ASSIGN',
+  ASSIGN: 'ASSIGN',
+  RATE: 'RATE',
+} as const
+
+export type IdeaActionEnum = (typeof IdeaActionEnum)[keyof typeof IdeaActionEnum]

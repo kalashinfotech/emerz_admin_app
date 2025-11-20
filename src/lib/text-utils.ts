@@ -3,8 +3,11 @@ export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
-export function titleCase(str: string): string {
+export function titleCase(str: string, replace?: string): string {
   if (!str) return ''
+  if (replace) {
+    str = str.replaceAll(replace, ' ')
+  }
   return str
     .toLowerCase()
     .split(' ')

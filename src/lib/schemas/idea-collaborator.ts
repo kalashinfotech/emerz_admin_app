@@ -16,3 +16,10 @@ export const ideaCollaborationSchema = baseIdeaCollaborationSchema.extend({
   invitedAt: z.string(),
   acceptedAt: z.string().nullable(),
 })
+
+export const bareCollaboratorSchema = ideaCollaborationSchema.pick({
+  id: true,
+  participant: true,
+  participantId: true,
+  designation: true,
+})

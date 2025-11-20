@@ -1,4 +1,4 @@
-import { NotebookPen, Terminal, Users } from 'lucide-react'
+import { NotebookPen, ShieldUser, Terminal, Users } from 'lucide-react'
 
 // Menu items.
 const MENU_ITEMS_MAP = [
@@ -11,6 +11,11 @@ const MENU_ITEMS_MAP = [
     module: 'user_account',
     to: '/user-account',
     icon: Users,
+  },
+  {
+    module: 'faculty',
+    to: '/faculty',
+    icon: ShieldUser,
   },
   {
     module: 'role',

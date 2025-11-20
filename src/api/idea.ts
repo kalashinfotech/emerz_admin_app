@@ -1,8 +1,10 @@
+import { useMutation } from '@tanstack/react-query'
 import type { ColumnFilter, ColumnSort } from '@tanstack/react-table'
 
-import type { FetchIdeaListRsDto, FetchIdeaRsDto } from '@/types'
+import type { CreateIdeaActivityRqDto, FetchIdeaActivityRsDto, FetchIdeaListRsDto, FetchIdeaRsDto } from '@/types'
 
 import { fetchQuery } from '.'
+import { axiosPrivate } from './axios'
 
 const baseSuburl = '/idea'
 const queryKey = ['idea']
@@ -31,4 +33,27 @@ export const fetchIdeas = (
     enabled,
     params,
   })
+}
+
+export const UseCreateIdeaActivity = (ideaId: string) => {
+  const {
+    mutateAsync: createIdeaActivity,
+    reset,
+    isPending,
+    isError,
+    error,
+    isSuccess,
+  } = useMutation({
+    mutationKey: [...queryKey, 'create'],
+    mutationFn: async ({ request }: { request: CreateIdeaActivityRqDto }): Promise<null> => {
+      const endPoint = `${baseSuburl}/${ideaId}/activity`
+      const response = await axiosPrivate.post(endPoint, { ...request })
+      return response.data
+    },
+  })
+  return { createIdeaActivity, reset, isPending, isError, error, isSuccess }
+}
+export const fetchIdeaActivityByIdeaId = (ideaId: string, enabled: boolean = true) => {
+  const endpoint = `${baseSuburl}/${ideaId}/activity`
+  return fetchQuery<FetchIdeaActivityRsDto>(endpoint, { queryKey: [...queryKey, 'activity', ideaId], enabled })
 }

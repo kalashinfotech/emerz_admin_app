@@ -7,6 +7,6 @@ export const auditMixinSchema = z.object({
   updatedAt: z.coerce.date().nullable(),
   createdById: z.uuid().nullable(),
   updatedById: z.uuid().nullable(),
-  createdBy: bareUserAccountSchema.nullable(),
-  updatedBy: bareUserAccountSchema.nullable(),
+  // createdBy: bareUserAccountSchema.nullable(),
+  // updatedBy: bareUserAccountSchema.nullable(),
 })

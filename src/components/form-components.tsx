@@ -130,18 +130,20 @@ export function TextField({
   return (
     <div>
       <Label htmlFor={label} className="mb-2 ml-1 flex justify-between leading-5">
-        <div className="flex items-center gap-2">
-          {label}{' '}
-          {subLabel && (
-            <>
-              {typeof subLabel === 'string' ? (
-                <span className="text-muted-foreground text-xs">{subLabel}</span>
-              ) : (
-                subLabel
-              )}
-            </>
-          )}
-          {mandatory && <sup>*</sup>}
+        <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            {label}
+            {subLabel && (
+              <>
+                {typeof subLabel === 'string' ? (
+                  <span className="text-muted-foreground text-xs">{subLabel}</span>
+                ) : (
+                  subLabel
+                )}
+              </>
+            )}
+          </div>
+          {mandatory && <sup className="text-destructive">*</sup>}
         </div>
         {typeof charCount !== 'undefined' && charCount >= 0 ? (
           <div className="text-muted-foreground text-xs">

@@ -4,26 +4,31 @@ import { UserTypeEnum } from '@/lib/enums'
 import { paginationQySchema, paginationRsSchema, sortQySchema } from '@/lib/schemas/common'
 
 import { bareCountrySchema, bareStateSchema } from './parameters'
-import { bareRoleSchmea } from './parameters/role'
+import { bareRoleOnlySchema, bareRoleSchmea } from './parameters/role'
 
-const baseUserAccountSchema = z.object({
+export const baseUserAccountSchema = z.object({
   salutation: z.string().max(20).nullable(),
   firstName: z.string().max(100),
   middleName: z.string().max(100).nullable(),
   lastName: z.string().max(100),
   emailId: z.email().max(255),
   mobileNo: z.string().max(15).nullable(),
-  dateOfBirth: z.date().nullable(),
+  dateOfBirth: z.string().nullable(),
   addressLine1: z.string().max(50),
   addressLine2: z.string().max(50).nullable(),
   countryId: z.coerce.number().nullable(),
   stateId: z.coerce.number().nullable(),
-  userType: z.enum(UserTypeEnum), // ensure UserTypeEnum is imported from your enums
+  userType: z.enum(UserTypeEnum),
   tosAgreed: z.boolean().nullable(),
 })
 
-export const createUserAccountRqSchema = baseUserAccountSchema.extend({
-  password: z.string().max(100).nullable(),
+export const createUserAccountRqSchema = z.object({
+  firstName: z.string().max(100),
+  lastName: z.string().max(100),
+  password: z.string().max(100).optional(),
+  emailId: z.email().max(255),
+  userType: z.enum(UserTypeEnum).optional(),
+  role: z.union([z.string(), z.number()]),
 })
 
 export const updateUserAccountRqSchema = baseUserAccountSchema
@@ -32,15 +37,15 @@ export const userAccountSchema = baseUserAccountSchema.extend({
   id: z.uuid(),
   displayId: z.string().max(20),
   isActive: z.boolean(),
-  verifiedDate: z.coerce.date().nullable(),
+  verifiedDate: z.string().nullable(),
   failedLoginAttempts: z.number().int(),
-  lastPasswordChangeDate: z.coerce.date().nullable(),
-  lastLogin: z.coerce.date().nullable(),
-  tosAgreedDate: z.coerce.date().nullable(),
+  lastPasswordChangeDate: z.string().nullable(),
+  lastLogin: z.string().nullable(),
+  tosAgreedDate: z.string().nullable(),
   state: bareStateSchema.nullable(),
   country: bareCountrySchema.nullable(),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date().nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string().nullable(),
   createdById: z.uuid().nullable(),
   updatedById: z.uuid().nullable(),
   roles: z.array(bareRoleSchmea),
@@ -54,6 +59,7 @@ export const bareUserAccountSchema = z
     firstName: z.string().max(100),
     middleName: z.string().max(100).nullable(),
     lastName: z.string().max(100),
+    userType: z.enum(UserTypeEnum),
   })
   .extend({ fullName: z.string().optional() })
   .transform((data) => {
@@ -70,6 +76,15 @@ export const bareUserAccountSchema = z
 
 export const fetchUserAccountRsSchema = userAccountSchema
 
+export const fetchUserAccountListSchema = userAccountSchema
+  .omit({
+    state: true,
+    country: true,
+  })
+  .extend({
+    roles: z.array(bareRoleOnlySchema),
+  })
+
 export const fetchUserAccountListRsSchema = z.object({
   data: z.array(userAccountSchema),
   pagination: paginationRsSchema,
@@ -77,10 +92,6 @@ export const fetchUserAccountListRsSchema = z.object({
 
 export const fetchUserAccountListQySchema = z.object({ ...paginationQySchema.shape, ...sortQySchema.shape }).extend({
   name: z.string().optional(),
-  fromDate: z.coerce.date().optional(),
-  toDate: z.coerce.date().optional(),
+  fromDate: z.string().optional(),
+  toDate: z.string().optional(),
 })
-
-export type CreateUserAccountRqDto = z.infer<typeof createUserAccountRqSchema>
-export type UpdateUserAccountRqDto = z.infer<typeof updateUserAccountRqSchema>
-export type FetchUserAccountListQyDto = z.infer<typeof fetchUserAccountListQySchema>

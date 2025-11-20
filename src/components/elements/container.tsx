@@ -41,7 +41,7 @@ export const Container = React.forwardRef<React.ComponentRef<'main'>, MainProps>
       IconComponent = Icon
     }
     return (
-      <main ref={ref} className={cn('mx-auto w-full px-8', className)} {...props}>
+      <main ref={ref} className={cn('mx-auto w-full px-8 py-4 pr-16', className)} {...props}>
         <div className="mb-3 flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">

@@ -26,6 +26,7 @@ import { Route as PrivateUserAccountIndexRouteImport } from './routes/_private/u
 import { Route as PrivateRolesIndexRouteImport } from './routes/_private/roles/index'
 import { Route as PrivateParticipantIndexRouteImport } from './routes/_private/participant/index'
 import { Route as PrivateIdeaIndexRouteImport } from './routes/_private/idea/index'
+import { Route as PrivateFacultyIndexRouteImport } from './routes/_private/faculty/index'
 import { Route as PrivateIdeaIdeaIdIndexRouteImport } from './routes/_private/idea/$ideaId/index'
 
 const PrivateRouteRoute = PrivateRouteRouteImport.update({
@@ -112,6 +113,11 @@ const PrivateIdeaIndexRoute = PrivateIdeaIndexRouteImport.update({
   path: '/idea/',
   getParentRoute: () => PrivateRouteRoute,
 } as any)
+const PrivateFacultyIndexRoute = PrivateFacultyIndexRouteImport.update({
+  id: '/faculty/',
+  path: '/faculty/',
+  getParentRoute: () => PrivateRouteRoute,
+} as any)
 const PrivateIdeaIdeaIdIndexRoute = PrivateIdeaIdeaIdIndexRouteImport.update({
   id: '/idea/$ideaId/',
   path: '/idea/$ideaId/',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/disclaimer': typeof PublicDisclaimerRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-and-conditions': typeof PublicTermsAndConditionsRoute
+  '/faculty': typeof PrivateFacultyIndexRoute
   '/idea': typeof PrivateIdeaIndexRoute
   '/participant': typeof PrivateParticipantIndexRoute
   '/roles': typeof PrivateRolesIndexRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/disclaimer': typeof PublicDisclaimerRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-and-conditions': typeof PublicTermsAndConditionsRoute
+  '/faculty': typeof PrivateFacultyIndexRoute
   '/idea': typeof PrivateIdeaIndexRoute
   '/participant': typeof PrivateParticipantIndexRoute
   '/roles': typeof PrivateRolesIndexRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/_public/disclaimer': typeof PublicDisclaimerRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-and-conditions': typeof PublicTermsAndConditionsRoute
+  '/_private/faculty/': typeof PrivateFacultyIndexRoute
   '/_private/idea/': typeof PrivateIdeaIndexRoute
   '/_private/participant/': typeof PrivateParticipantIndexRoute
   '/_private/roles/': typeof PrivateRolesIndexRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/privacy-policy'
     | '/terms-and-conditions'
+    | '/faculty'
     | '/idea'
     | '/participant'
     | '/roles'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/privacy-policy'
     | '/terms-and-conditions'
+    | '/faculty'
     | '/idea'
     | '/participant'
     | '/roles'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/_public/disclaimer'
     | '/_public/privacy-policy'
     | '/_public/terms-and-conditions'
+    | '/_private/faculty/'
     | '/_private/idea/'
     | '/_private/participant/'
     | '/_private/roles/'
@@ -364,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateIdeaIndexRouteImport
       parentRoute: typeof PrivateRouteRoute
     }
+    '/_private/faculty/': {
+      id: '/_private/faculty/'
+      path: '/faculty'
+      fullPath: '/faculty'
+      preLoaderRoute: typeof PrivateFacultyIndexRouteImport
+      parentRoute: typeof PrivateRouteRoute
+    }
     '/_private/idea/$ideaId/': {
       id: '/_private/idea/$ideaId/'
       path: '/idea/$ideaId'
@@ -395,6 +414,7 @@ interface PrivateRouteRouteChildren {
   PrivateNotificationsRoute: typeof PrivateNotificationsRoute
   PrivateProfileRoute: typeof PrivateProfileRoute
   PrivateSettingsRoute: typeof PrivateSettingsRoute
+  PrivateFacultyIndexRoute: typeof PrivateFacultyIndexRoute
   PrivateIdeaIndexRoute: typeof PrivateIdeaIndexRoute
   PrivateParticipantIndexRoute: typeof PrivateParticipantIndexRoute
   PrivateRolesIndexRoute: typeof PrivateRolesIndexRoute
@@ -407,6 +427,7 @@ const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
   PrivateNotificationsRoute: PrivateNotificationsRoute,
   PrivateProfileRoute: PrivateProfileRoute,
   PrivateSettingsRoute: PrivateSettingsRoute,
+  PrivateFacultyIndexRoute: PrivateFacultyIndexRoute,
   PrivateIdeaIndexRoute: PrivateIdeaIndexRoute,
   PrivateParticipantIndexRoute: PrivateParticipantIndexRoute,
   PrivateRolesIndexRoute: PrivateRolesIndexRoute,

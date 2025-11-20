@@ -16,3 +16,4 @@ export type IdRs = {
 export * from './auth'
 export * from './client'
 export * from './idea'
+export * from './user-account'
