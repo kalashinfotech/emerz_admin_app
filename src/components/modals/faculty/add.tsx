@@ -75,28 +75,21 @@ export const FacultyAddModal = ({ open, onOpenChange, userType, successFn, error
           </CredenzaDescription>
           <CredenzaBody className="text-sm">
             <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <form.AppField name="firstName">
-                  {(field) => (
-                    <field.TextField
-                      maxLength={100}
-                      label="First Name"
-                      placeholder="Enter first name..."
-                      mandatory={true}
-                    />
-                  )}
-                </form.AppField>
-                <form.AppField name="lastName">
-                  {(field) => (
-                    <field.TextField
-                      maxLength={100}
-                      label="Last Name"
-                      placeholder="Enter last name..."
-                      mandatory={true}
-                    />
-                  )}
-                </form.AppField>
-              </div>
+              <form.AppField name="firstName">
+                {(field) => (
+                  <field.TextField
+                    maxLength={100}
+                    label="First Name"
+                    placeholder="Enter first name..."
+                    mandatory={true}
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="lastName">
+                {(field) => (
+                  <field.TextField maxLength={100} label="Last Name" placeholder="Enter last name..." mandatory={true} />
+                )}
+              </form.AppField>
               <div className="grid grid-cols-1 gap-3">
                 <form.AppField name="emailId">
                   {(field) => <field.TextField label="Email ID" placeholder="Enter email id..." mandatory={true} />}
@@ -115,28 +108,6 @@ export const FacultyAddModal = ({ open, onOpenChange, userType, successFn, error
                   )}
                 </form.AppField>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <form.AppField name="highestEducation">
-                  {(field) => <field.TextField label="Highest Education" placeholder="Enter details..." />}
-                </form.AppField>
-                <form.AppField name="workExperienceInYears">
-                  {(field) => (
-                    <field.TextField
-                      label="Work Experience (in years)"
-                      type="number"
-                      placeholder="Enter work experience..."
-                    />
-                  )}
-                </form.AppField>
-              </div>
-              <form.AppField name="certifications">
-                {(field) => (
-                  <field.Tags
-                    label="Certifications"
-                    placeholder="Enter one or more certifications, separated by comma."
-                  />
-                )}
-              </form.AppField>
             </div>
           </CredenzaBody>
           <CredenzaFooter>

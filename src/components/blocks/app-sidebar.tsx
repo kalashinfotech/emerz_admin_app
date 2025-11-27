@@ -1,8 +1,15 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { ChevronDown, ChevronsUpDown, Dot, LucideLayoutDashboard, User2 } from 'lucide-react'
+import { ChevronDown, Dot, LogOut, LucideLayoutDashboard, UserCog } from 'lucide-react'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +34,8 @@ export function AppSidebar() {
   const { state } = useSidebar()
   const { sessionInfo, signOut, setSessionInfo } = useAuth()
   const menu = useMenuStore((s) => s.menu)
+  if (!sessionInfo) return null
+  const initials = `${sessionInfo.firstName[0]}${sessionInfo.lastName[0]}`
 
   return (
     <Sidebar collapsible="icon">
@@ -111,18 +120,40 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> {sessionInfo?.firstName}
-                  <ChevronsUpDown className="ml-auto" />
+                <SidebarMenuButton size="lg">
+                  <Avatar className="size-8 rounded-sm">
+                    {sessionInfo.profilePicId && (
+                      <AvatarImage
+                        className="object-cover"
+                        src={`${import.meta.env.VITE_BACKEND_URL}/admin/user-account/profile/${sessionInfo.profilePicId}?size=thumbnail`}
+                      />
+                    )}
+                    <AvatarFallback className="rounded-sm">
+                      <span className="text-xs">{initials}</span>
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p>{sessionInfo.firstName}</p>
+                    <p className="text-xs">{sessionInfo.emailId}</p>
+                  </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
+                <DropdownMenuItem className="pointer-events-none">
+                  <UserCog />
+                  <div>
+                    Role
+                    <p className="text-muted-foreground text-xs">{sessionInfo.roles[0].name}</p>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => {
                     signOut()
                     setSessionInfo(null)
                     navigate({ to: '/login', search: { redirect: '/dashboard' } })
                   }}>
+                  <LogOut />
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

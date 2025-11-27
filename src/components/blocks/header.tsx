@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { useCanGoBack, useNavigate, useRouter } from '@tanstack/react-router'
-import { ChevronLeftIcon, CircleX, IdCardLanyard, LogOut, MenuIcon, User, UserPen } from 'lucide-react'
+import { ChevronLeftIcon, CircleX, IdCardLanyard, LogOut, MenuIcon, User, UserCog, UserPen } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -84,6 +84,14 @@ const Header = () => {
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="pointer-events-none">
+                <UserCog />
+                <div>
+                  Role
+                  <p className="text-muted-foreground text-xs">{sessionInfo.roles[0].name}</p>
+                </div>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuGroup className="flex flex-col">
                 <DropdownMenuItem

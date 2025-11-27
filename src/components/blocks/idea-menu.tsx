@@ -1,19 +1,5 @@
-import * as React from 'react'
-
-import {
-  ArchiveIcon,
-  ArrowLeftIcon,
-  BadgeCheck,
-  BadgeX,
-  CalendarPlusIcon,
-  ClockIcon,
-  ListFilterPlusIcon,
-  MailCheckIcon,
-  MoreHorizontalIcon,
-  RefreshCcw,
-  TagIcon,
-  Trash2Icon,
-} from 'lucide-react'
+import { useCanGoBack, useRouter } from '@tanstack/react-router'
+import { ArrowLeftIcon, BadgeCheck, BadgeX, MoreHorizontalIcon, RefreshCcw, Star, Users2 } from 'lucide-react'
 
 import type { IdeaModel } from '@/types'
 
@@ -24,14 +10,10 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
+import { useAuth } from '@/hooks/use-auth'
 
 import type { IdeaActionEnum } from '@/lib/enums'
 
@@ -41,45 +23,108 @@ type IdeaMenuProps = {
   setOpenActivityModal: (o: boolean) => void
 }
 
-function IdeaMenu({ setAction, setOpenActivityModal }: IdeaMenuProps) {
-  const [label, setLabel] = React.useState('personal')
+function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
+  const { sessionInfo } = useAuth()
+  const router = useRouter()
+  const canGoBack = useCanGoBack()
 
   return (
     <ButtonGroup>
       <ButtonGroup className="hidden sm:flex">
-        <Button variant="outline" size="icon" aria-label="Go Back">
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Go Back"
+          disabled={!canGoBack}
+          onClick={() => router.history.back()}>
           <ArrowLeftIcon />
         </Button>
       </ButtonGroup>
-      <ButtonGroup>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setAction('REJECT')
-            setOpenActivityModal(true)
-          }}>
-          <BadgeX />
-          Reject
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setAction('REWORK')
-            setOpenActivityModal(true)
-          }}>
-          <RefreshCcw />
-          Rework
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setAction('ACCEPT')
-            setOpenActivityModal(true)
-          }}>
-          <BadgeCheck />
-          Accept
-        </Button>
-      </ButtonGroup>
+      {['SUPERADMIN', 'REGULAR'].includes(sessionInfo?.userType || '') && (
+        <ButtonGroup>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setAction('REJECT')
+              setOpenActivityModal(true)
+            }}
+            disabled={!idea.allowedActions.includes('REJECT') && !(idea.stage === 'STAGE_1')}>
+            <BadgeX />
+            Reject
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setAction('REWORK')
+              setOpenActivityModal(true)
+            }}
+            disabled={!idea.allowedActions.includes('REWORK') && !(idea.stage === 'STAGE_1')}>
+            <RefreshCcw />
+            Rework
+          </Button>
+          {idea.allowedActions.includes('ACCEPT') ? (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('ACCEPT')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('ACCEPT') && !(idea.stage === 'STAGE_1')}>
+              <BadgeCheck />
+              Accept
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('ACCEPT_ASSIGN')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('ACCEPT_ASSIGN') && !(idea.stage === 'STAGE_1')}>
+              <BadgeCheck />
+              Accept & Assign
+            </Button>
+          )}
+        </ButtonGroup>
+      )}
+      {['FACULTY'].includes(sessionInfo?.userType || '') && (
+        <>
+          <ButtonGroup>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('REJECT')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('REJECT')}>
+              <BadgeX />
+              Reject
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('ACCEPT')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('ACCEPT')}>
+              <BadgeCheck />
+              Accept
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('ACCEPT')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('RATE')}>
+              <Star />
+              Rate Idea
+            </Button>
+          </ButtonGroup>
+        </>
+      )}
       <ButtonGroup>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -90,47 +135,8 @@ function IdeaMenu({ setAction, setOpenActivityModal }: IdeaMenuProps) {
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <MailCheckIcon />
-                Mark as Read
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ArchiveIcon />
-                Archive
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <ClockIcon />
-                Snooze
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CalendarPlusIcon />
-                Add to Calendar
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ListFilterPlusIcon />
-                Add to List
-              </DropdownMenuItem>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <TagIcon />
-                  Label As...
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <DropdownMenuRadioGroup value={label} onValueChange={setLabel}>
-                    <DropdownMenuRadioItem value="personal">Personal</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="work">Work</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="other">Other</DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem variant="destructive">
-                <Trash2Icon />
-                Trash
+                <Users2 />
+                View Collaborators
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

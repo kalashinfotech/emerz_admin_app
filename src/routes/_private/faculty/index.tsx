@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/ui/copy-button'
 import DataTable from '@/components/ui/data-table'
+import { Progress } from '@/components/ui/progress'
 
 import ActionMenu from '@/components/elements/action-menu'
 import type { Action } from '@/components/elements/action-menu'
@@ -150,9 +151,12 @@ function RouteComponent() {
         },
       },
       {
-        accessorKey: 'mobileNo',
-        header: 'Mobile No',
+        accessorKey: 'profile',
+        header: 'Profile Completion',
         enableSorting: true,
+        cell: () => {
+          return <Progress value={90} indicatorClassName="bg-secondary" />
+        },
       },
       {
         accessorKey: 'dateOfBirth',

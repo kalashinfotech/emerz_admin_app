@@ -5,7 +5,7 @@ import { bareParticipantSchema } from '@/lib/schemas/client'
 import { paginationQySchema, paginationRsSchema, sortQySchema } from '@/lib/schemas/common'
 
 import { bareCollaboratorSchema, ideaCollaborationSchema } from './idea-collaborator'
-import { ideaProfileAnswerSchema } from './idea-profile'
+import { participantAnswerSchema } from './idea-question'
 import { bareUserAccountSchema } from './user-account'
 
 export const baseIdeaActivitySchema = z.object({
@@ -43,9 +43,12 @@ export const ideaSchema = baseIdeaSchema.extend({
   status: z.enum(IdeaStatusEnum),
   attempts: z.object({ preValidation: z.int(), readiness: z.int(), validation: z.int() }),
   ownerId: z.uuid(),
+  facultyId: z.uuid().nullable(),
   owner: bareParticipantSchema,
   collaborators: z.array(ideaCollaborationSchema).nullable(),
-  answers: z.array(ideaProfileAnswerSchema).nullable(),
+  answers: z.array(participantAnswerSchema).nullable(),
+  allowedActions: z.array(z.enum(IdeaActionEnum)),
+  faculty: bareUserAccountSchema.optional(),
 })
 
 export const listIdeaSchema = ideaSchema.omit({
@@ -73,8 +76,16 @@ export const fetchIdeaListQy = z.object({
 })
 
 export const createIdeaActivityRqSchema = z.object({
-  response: z.string().min(200),
+  response: z.string().optional(),
   action: z.enum(IdeaActionEnum),
+  facultyId: z.uuid().optional(),
 })
+export const generateCreateIdeaActivityDynamicRqSchema = (isOptional: boolean) => {
+  return z.object({
+    response: isOptional ? z.string().optional() : z.string().min(200),
+    action: z.enum(IdeaActionEnum),
+    facultyId: z.uuid().optional(),
+  })
+}
 
 export const fetchIdeaActivityRsSchema = z.array(ideaActivitySchema)

@@ -239,7 +239,11 @@ export function TextArea({
       <Label htmlFor={id} className="mb-2 ml-1 flex justify-between leading-5">
         <div>
           {label} {subLabel && <span className="text-muted-foreground text-xs">{subLabel}</span>}
-          {mandatory && <sup className="text-destructive">*</sup>}
+          {mandatory && (
+            <span>
+              <sup className="text-destructive">*</sup>
+            </span>
+          )}
         </div>
         {typeof charCount !== 'undefined' && charCount >= 0 ? (
           <div className="text-muted-foreground text-xs">

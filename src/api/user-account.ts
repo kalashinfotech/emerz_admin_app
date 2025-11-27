@@ -2,7 +2,12 @@ import { useMutation } from '@tanstack/react-query'
 import type { ColumnFilter, ColumnSort } from '@tanstack/react-table'
 
 import type { IdRs } from '@/types'
-import type { CreateUserAccountRqDto, FetchUserAccountListRsDto, FetchUserAccountRsDto } from '@/types/user-account'
+import type {
+  CreateUserAccountRqDto,
+  FetchUserAccountBareListRsDto,
+  FetchUserAccountListRsDto,
+  FetchUserAccountRsDto,
+} from '@/types/user-account'
 
 import type { UserTypeEnum } from '@/lib/enums'
 
@@ -33,6 +38,20 @@ export const fetchUserAccounts = (
   const params = { page, pageSize, ...filters, sorting }
   return fetchQuery<FetchUserAccountListRsDto>(endpoint, {
     queryKey: [...queryKey, 'list', page, columnFilters, sorting, pageSize],
+    enabled,
+    params,
+  })
+}
+export const fetchUserAccountsBareList = (columnFilters: ColumnFilter[], enabled: boolean = true) => {
+  const filters = columnFilters.reduce<Record<string, string>>((acc, obj) => {
+    acc[obj.id] = obj.value as string
+    return acc
+  }, {})
+
+  const endpoint = `${baseSuburl}/list`
+  const params = { ...filters }
+  return fetchQuery<FetchUserAccountBareListRsDto>(endpoint, {
+    queryKey: [...queryKey, 'list', columnFilters],
     enabled,
     params,
   })

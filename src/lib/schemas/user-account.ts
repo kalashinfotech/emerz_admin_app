@@ -49,6 +49,7 @@ export const userAccountSchema = baseUserAccountSchema.extend({
   createdById: z.uuid().nullable(),
   updatedById: z.uuid().nullable(),
   roles: z.array(bareRoleSchmea),
+  profilePicId: z.int().nullable(),
 })
 
 export const bareUserAccountSchema = z
@@ -87,6 +88,11 @@ export const fetchUserAccountListSchema = userAccountSchema
 
 export const fetchUserAccountListRsSchema = z.object({
   data: z.array(userAccountSchema),
+  pagination: paginationRsSchema,
+})
+
+export const fetchUserAccountBareListRsSchema = z.object({
+  data: z.array(bareUserAccountSchema),
   pagination: paginationRsSchema,
 })
 

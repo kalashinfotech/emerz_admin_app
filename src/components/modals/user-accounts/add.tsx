@@ -100,7 +100,6 @@ export const UserAccountAddModal = ({ open, onOpenChange, userType, successFn, e
                     values={[
                       { label: 'Business Operator', value: '3' },
                       { label: 'Admin', value: '2' },
-                      { label: 'Accounting', value: '6' },
                     ]}
                     placeholder="Select role"
                   />

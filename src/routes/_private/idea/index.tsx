@@ -161,6 +161,16 @@ function RouteComponent() {
         },
       },
       {
+        accessorKey: 'facultyId',
+        header: 'Assigned To',
+        enableSorting: true,
+        cell: ({ row }) => {
+          const owner = row.original.faculty
+          if (owner) return <ProfileAvatar firstName={owner.firstName} lastName={owner.lastName} imageUrl={undefined} />
+          else return '-'
+        },
+      },
+      {
         id: 'actions',
         cell: ({ row }) => {
           return <ActionMenu actions={actions} row={row} />

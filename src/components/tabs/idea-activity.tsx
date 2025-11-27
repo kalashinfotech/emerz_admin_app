@@ -117,7 +117,7 @@ type IdeaActivityTabProps = {
 const IdeaAcitivityTab = ({ ideaId }: IdeaActivityTabProps) => {
   const { data } = useQuery(fetchIdeaActivityByIdeaId(ideaId))
   return (
-    <Card>
+    <Card className="w-[80%]">
       <CardHeader>
         <CardTitle>Idea Activity</CardTitle>
       </CardHeader>
