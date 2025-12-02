@@ -49,7 +49,7 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
               setOpenActivityModal(true)
             }}
             disabled={!idea.allowedActions.includes('REJECT') && !(idea.stage === 'STAGE_1')}>
-            <BadgeX />
+            <BadgeX className="text-destructive" />
             Reject
           </Button>
           <Button
@@ -59,21 +59,10 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
               setOpenActivityModal(true)
             }}
             disabled={!idea.allowedActions.includes('REWORK') && !(idea.stage === 'STAGE_1')}>
-            <RefreshCcw />
+            <RefreshCcw className="text-primary" />
             Rework
           </Button>
-          {idea.allowedActions.includes('ACCEPT') ? (
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAction('ACCEPT')
-                setOpenActivityModal(true)
-              }}
-              disabled={!idea.allowedActions.includes('ACCEPT') && !(idea.stage === 'STAGE_1')}>
-              <BadgeCheck />
-              Accept
-            </Button>
-          ) : (
+          {idea.allowedActions.includes('ACCEPT_ASSIGN') ? (
             <Button
               variant="outline"
               onClick={() => {
@@ -81,8 +70,19 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
                 setOpenActivityModal(true)
               }}
               disabled={!idea.allowedActions.includes('ACCEPT_ASSIGN') && !(idea.stage === 'STAGE_1')}>
-              <BadgeCheck />
+              <BadgeCheck className="text-secondary" />
               Accept & Assign
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setAction('ACCEPT')
+                setOpenActivityModal(true)
+              }}
+              disabled={!idea.allowedActions.includes('ACCEPT') && !(idea.stage === 'STAGE_1')}>
+              <BadgeCheck className="text-secondary" />
+              Accept
             </Button>
           )}
         </ButtonGroup>
@@ -97,7 +97,7 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
                 setOpenActivityModal(true)
               }}
               disabled={!idea.allowedActions.includes('REJECT')}>
-              <BadgeX />
+              <BadgeX className="text-destructive" />
               Reject
             </Button>
             <Button
@@ -107,7 +107,7 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
                 setOpenActivityModal(true)
               }}
               disabled={!idea.allowedActions.includes('ACCEPT')}>
-              <BadgeCheck />
+              <BadgeCheck className="text-secondary" />
               Accept
             </Button>
           </ButtonGroup>
@@ -119,7 +119,7 @@ function IdeaMenu({ idea, setAction, setOpenActivityModal }: IdeaMenuProps) {
                 setOpenActivityModal(true)
               }}
               disabled={!idea.allowedActions.includes('RATE')}>
-              <Star />
+              <Star className="text-primary" />
               Rate Idea
             </Button>
           </ButtonGroup>

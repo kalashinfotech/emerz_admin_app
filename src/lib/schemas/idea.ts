@@ -25,6 +25,7 @@ export const ideaActivitySchema = baseIdeaActivitySchema.extend({
   newStatus: z.enum(IdeaStatusEnum).optional(),
   user: bareUserAccountSchema.optional(),
   collaborator: bareCollaboratorSchema.optional(),
+  notificationText: z.string(),
 })
 
 const baseIdeaSchema = z.object({

@@ -5,37 +5,12 @@ import type { IdeaActivityModel } from '@/types'
 import { fetchIdeaActivityByIdeaId } from '@/api/idea'
 
 import { formatUtcStringToLocalDisplay } from '@/lib/date-utils'
-import type { IdeaActionEnum, IdeaStatusEnum } from '@/lib/enums'
+import type { IdeaStatusEnum } from '@/lib/enums'
 import { titleCase } from '@/lib/text-utils'
 
 import { ProfileAvatar } from '../elements/profile-avatar'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-
-const getAction = (action: IdeaActionEnum) => {
-  switch (action) {
-    case 'CREATE':
-      return 'created on'
-    case 'UPDATE':
-      return 'updated on'
-    case 'SUBMIT':
-      return 'submitted on'
-    case 'ACCEPT':
-      return 'accepted on'
-    case 'REJECT':
-      return 'rejected on'
-    case 'REWORK':
-      return 'sent for rework on'
-    case 'ACCEPT_ASSIGN':
-      return 'accepted on'
-    case 'ASSIGN':
-      return 'assigned on'
-    case 'RATE':
-      return 'rated on'
-    default:
-      return 'commented on'
-  }
-}
 
 const getStatusBadgeColor = (status: IdeaStatusEnum) => {
   switch (status) {
@@ -130,7 +105,7 @@ const IdeaAcitivityTab = ({ ideaId }: IdeaActivityTabProps) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                   <ProfileAvatar firstName={actionee.firstName} lastName={actionee.lastName} />
-                  <span className="text-muted-foreground">{getAction(d.action)}</span>
+                  <span className="text-muted-foreground">{d.notificationText} on</span>
                   {formatUtcStringToLocalDisplay(d.updatedAt, true, 'dd MMM, yyyy hh:mm a')}
                   {hasStatusChanged(d) && (
                     <div>

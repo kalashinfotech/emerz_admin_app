@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { Lightbulb, NotebookText, Users2 } from 'lucide-react'
+import { ActivityIcon, Lightbulb, Users2 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -60,7 +60,7 @@ function RouteComponent() {
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="tab-3" className="group">
-                <NotebookText className="-ms-0.5 me-1.5 opacity-60" size={16} aria-hidden="true" />
+                <ActivityIcon className="-ms-0.5 me-1.5 opacity-60" size={16} aria-hidden="true" />
                 Activity
               </TabsTrigger>
             </TabsList>
